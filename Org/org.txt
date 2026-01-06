@@ -1,0 +1,359 @@
+
+------------------------------------------
+ACTIVIDAD 1: CHATBOT PLN
+Asignatura: Modelos de IA
+Profesor: Rubén
+Alumnno: Enrique Fernández Romanillos (G1)
+------------------------------------------
+------------------------------------------
+FECHAS: 
+Inicio: M. 06/01/2026
+Fecha de Entrega: L. 02/02/2026
+Días hasta la entrega: 27 días.
+------------------------------------------
+
+
+ÍNDICE
+================================
+ - Descipción.
+ - Tecnologías usadas. Librerías.
+ - Organización, pasos a seguir.
+ - Módulos y funciones.
+ - Posibles mejoras
+ - Glosario de PLN (vocabulario)
+================================
+ 
+
+Descripción.
+-----------
+- Se trata de implementar un chatbot con técnicas clásicas de PLN. 
+- Podemos basarnos en el código que realizó Rubén en clase o uno nuevo pero con iguales características.
+- Se va a realizar un chatbot que tiene como base de conocimiento un pdf sobre la historia de la IA. 
+- Las preguntas son exclusivas sobre el pdf. En caso de que la pregunta no pueda ser respondida (fallback response) 
+- El chatbot va a responder por defecto: "Lo siento, no puedo responder, la pregunta no está en el contexto"
+- El programa convierte el PDF en chunks, lo vetoriza y responde preguntas basadas en similitud.
+- La UI se realizará en modo texto con colores.
+
+Finalmente se decide implmentar el chatbot mediante:
+
+    - NLTK
+    - Bilingüe (inglés-español): detección de idioma del usuario y respuesta en idioma del usuario traducida
+    - Un solo PDF en inglés.
+
+
+- Tecnologías usadas. Librerías.
+--------------------------------
+
+Librerías principales:
+
+    - Python 3.12.8
+    
+    - NLTK (Natural Language Toolkit)
+    
+       ·tokenización (punkt)
+       ·lematización (WordNetLemmatizer)
+       ·Descarga recursos lingüisticos (wordnet, punkt_tab)
+       ·Limpieza y normalización del texto
+        
+    - scikit-learn
+        
+        ·TfidfVectorizer: vectorizar el texto.
+        ·cosine_similarity: cálculos de similitud entre pregunta y chunks.
+    
+Librerías auxiliares:
+
+    - landetect
+    
+        ·Usada para la detección del idioma del usuario (español-inglés)
+        ·Activar la trducción básica si la pregunta está en español
+        
+    - PyPDF2
+    
+        · Cargar el PDF
+        · Extraer el texto original.
+        
+    - string
+    
+        · Eliminar signos de puntuación.
+        · Normalización del texto.
+        
+    - os
+    
+        · Listar PDFs en el directorio "texto_pdf"
+        · Contruir rutas dinámicas.
+        · Menú de selección de documento.
+        
+ Interfaz
+ 
+    · Menú principal.
+    · Colores ANSI
+    · Interacción con el usuario
+    · Detección salir_chat para volver al menú principal.
+    
+    
+     
+       
+    
+
+
+Organización, pasos fundamentales a seguir.
+-------------------------------------------
+
+1. Organizar el directorio de trabajo y crear un repositorio en gitHub. Subir la estructura del proyecto.
+2. Elegir un pdf de dominio público o con licencia abierta, copiarlo a al directorio Texto-pdf.
+   Finalmente el texto es un pdf de licencia Creative-Commons sobre la historía y evolución de la IA:
+   https://eprints.ugd.edu.mk/28050/1/2.%20jrc120469_historical_evolution_of_ai-v1.1.pdf
+    
+3. Extraer el texto del PDF.
+
+    - Cargar el PDF.
+    - Extraer el texto.
+    - Limpiarlo.
+    
+4. Preprocesamiento
+
+Para que el modelo puedo buscar iniformación.
+
+    - Pasar a minúsculas.
+    - Eliminar signos de puntuación.
+    - Tokenizar.
+    - Dividir en chunks.
+    - Guardar esos chunks en una lista.
+    
+5.  Vectorización con TF-IDF
+
+TF-IDF (https://es.wikipedia.org/wiki/Tf-idf)
+
+Tf-idf (del inglés Term frequency – Inverse document frequency), frecuencia de término – frecuencia inversa de documento 
+(o sea, la frecuencia de ocurrencia del término en la colección de documentos).
+Es una medida numérica que expresa cuán relevante es una palabra para un documento en una colección. 
+Esta medida se utiliza a menudo como un factor de ponderación en la recuperación de información y la minería de texto. 
+El valor tf-idf aumenta proporcionalmente al número de veces que una palabra aparece en el documento,
+pero es compensada por la frecuencia de la palabra en la colección de documentos, 
+lo que permite manejar el hecho de que algunas palabras son generalmente más comunes que otras.
+
+    - Crear un TfidfVectorizar
+    - Ajustarlo sobre los chunks
+    - Obtener la matriz TF-IDF (matriz original con la que se compara la similitud con la pregunta del usr)
+
+6. Búsqueda por similitud (coseno)
+
+    - Vectorizar la pregunta.
+    - Calcular la similitud coseno con todos los chunks.
+    - Quedarse con los K más similares (top-k)
+    - Devolver el texto más relevante como respuesta. 
+        NOTA: se puede implementar un umbral para devolver varios chunks relevantes si la similitud
+         es similar o superior a un valor mínimo
+        
+              
+ 7. Interfaz del chatbot.
+ 
+    - una función en consola.
+    - Un bucle while.
+    - Un pequeño menú.
+    - Valorar si interfaz con Streamlit
+    
+ 8. Documentación y Entrega:
+ 
+    - Qué hace el chatbot.
+    - Cómo ejecutarlo.
+    - Dependencias (requirements.txt)
+    - Estructura del proyecto.
+    - Explicación breve del enfoque TF-IDF.
+    
+ 9. Control de versiones.
+    
+ 
+Módulos y funciones
+-------------------
+
+- menus.py: donde se muestra los menus para navegar por el programa.
+   
+    Funciones incorporadas:
+    
+        - elegir_pdf()
+        - mostrar_menu_principal()
+        
+- extraer_texto.py
+
+    Funciones incorporadas:
+        
+        - cargar_pdf_original()
+        - extraer_texto_original()
+        - limpiar_texto_original()
+        
+- preprocesamiento.py: donde se preprocesa el texto.
+
+    Funciones incorporadas:
+    
+        convertir_texto_minusculas()
+        tokenizar()
+        dividir_en_chunks()
+ 
+- Otros módulos previstos:
+           
+    - vectorizacion.py
+    - similaridad.py
+    - chatbot.py
+    - utils.py 
+    - traduccion_basica.py
+
+- (...)
+    
+Posibles mejoras.
+-----------------
+
+- Chatbot bilingüe.
+- Posibilidad de elegir el PDF dinámicamente (menú actualizado según los PDFs en el directorio).
+- Ajuste dinámico del umbral de similitud.
+- Respuesta multi-chunk.
+- Logs de conversación.
+- Colores ANSI y diseño visual.
+- (...)
+
+
+=============================
+Glosario de PLN (vocabulario)
+=============================
+
+·TOKENIZAR
+----------
+
+  Proceso de dividir un texto en unidades pequeñas llamadas tokens.
+  Ejemplo: "Hola mundo" → ["Hola", "mundo"].
+
+·LEMATIZAR
+----------
+
+  Convertir una palabra a su forma base o lema.
+  Ejemplo: "corriendo" → "correr".
+
+·STEMMING
+---------
+
+  Recortar palabras a su raíz sin preocuparse por la corrección lingüística.
+  Ejemplo: "corriendo", "corrió", "corre" → "corr".
+
+·STOPWORDS
+----------
+
+  Palabras muy frecuentes que no aportan significado relevante.
+  Ejemplos: "el", "la", "de", "y", "que".
+
+·NORMALIZACIÓN DEL TEXTO
+------------------------
+
+  Proceso de limpiar y uniformar el texto:
+  - minúsculas
+  - quitar puntuación
+  - quitar espacios dobles
+  - quitar caracteres raros
+
+·CHUNKING
+---------
+
+  Dividir el texto en fragmentos manejables (chunks).
+  Ejemplo: dividir en bloques de 200–300 palabras.
+
+·VECTORIZAR
+-----------
+
+  Convertir texto en números mediante TF-IDF u otros métodos.
+
+·TF-IDF (Term Frequency – Inverse Document Frequency)
+-----------------------------------------------------
+
+  Medida que indica la relevancia de una palabra en un documento y en el conjunto.
+  - TF = frecuencia en el chunk
+  - IDF = rareza en el corpus
+
+·N-GRAMA
+--------
+
+  Secuencia de n palabras consecutivas.
+  Ejemplos:
+    - 1-grama: "inteligencia"
+    - 2-grama: "inteligencia artificial"
+    - 3-grama: "redes neuronales profundas"
+
+·SIMILITUD COSENO
+-----------------
+
+  Medida que indica qué tan parecidos son dos vectores.
+  Se usa para comparar la pregunta con los chunks.
+
+·TOP-K
+------
+
+  Seleccionar los k chunks más similares a la pregunta.
+
+·UMBRAL DE SIMILITUD
+--------------------
+
+  Valor mínimo para considerar que un chunk es relevante.
+  Si la similitud es menor → fallback.
+
+·FALLBACK RESPONSE
+------------------
+
+  Respuesta por defecto cuando el chatbot no puede responder.
+  Ejemplo: "Lo siento, no puedo responder, la pregunta no está en el contexto."
+
+·PIPELINE DE PLN
+----------------
+
+  Secuencia de pasos:
+    1. Extraer texto
+    2. Limpiar
+    3. Tokenizar
+    4. Lematizar
+    5. Chunkear
+    6. Vectorizar
+    7. Comparar
+    8. Responder
+
+·CORPUS
+-------
+
+  Conjunto de textos usados para entrenar o analizar.
+  En en caso de la actividad es el PDF.
+
+·BAG OF WORDS (Bolsa de palabras)
+---------------------------------
+
+  Representación basada en frecuencias de palabras sin orden ni contexto.
+
+·CONSULTA (QUERY)
+-----------------
+
+  La pregunta del usuario, que también se vectoriza.
+
+·NORMALIZACIÓN LÉXICA
+---------------------
+
+  Convertir palabras a una forma estándar:
+    - minúsculas
+    - lemas
+    - sin acentos
+    - sin puntuación
+
+·RUIDO (NOISE)
+--------------
+
+  Elementos irrelevantes del texto:
+    - números
+    - URLs
+    - signos
+    - palabras muy frecuentes
+
+    
+
+
+
+
+
+
+
+
+
+
