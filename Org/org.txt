@@ -34,7 +34,7 @@ Descripción.
 - El programa convierte el PDF en chunks, lo vetoriza y responde preguntas basadas en similitud.
 - La UI se realizará en modo texto con colores.
 
-Finalmente se decide implmentar el chatbot mediante:
+Finalmente se decide implementar el chatbot mediante:
 
     - NLTK
     - Bilingüe (inglés-español): detección de idioma del usuario y respuesta en idioma del usuario traducida
@@ -103,14 +103,21 @@ Organización, pasos fundamentales a seguir.
 2. Elegir un pdf de dominio público o con licencia abierta, copiarlo a al directorio Texto-pdf.
    Finalmente el texto es un pdf de licencia Creative-Commons sobre la historía y evolución de la IA:
    https://eprints.ugd.edu.mk/28050/1/2.%20jrc120469_historical_evolution_of_ai-v1.1.pdf
+   
+3. Seleccionar pdf como fuente del directorio texto_pdf
+
+    - Dentro del directorio texto_pdf hay varios archivos con información diferente. 
+    - Se implementa la opción de seleccionar el pdf que sirve como base de conocimiento 
+      sobre la cual preguntar al bot.
     
-3. Extraer el texto del PDF.
+    
+4. Extraer el texto del PDF.
 
     - Cargar el PDF.
     - Extraer el texto.
-    - Limpiarlo.
+    - Prepararlo para preprocesamiento: pasar a minúsculas, quitar signos de puntuación, etc.
     
-4. Preprocesamiento
+5. Preprocesamiento
 
 Para que el modelo puedo buscar iniformación.
 
@@ -120,7 +127,7 @@ Para que el modelo puedo buscar iniformación.
     - Dividir en chunks.
     - Guardar esos chunks en una lista.
     
-5.  Vectorización con TF-IDF
+6.  Vectorización con TF-IDF
 
 TF-IDF (https://es.wikipedia.org/wiki/Tf-idf)
 
@@ -136,7 +143,7 @@ lo que permite manejar el hecho de que algunas palabras son generalmente más co
     - Ajustarlo sobre los chunks
     - Obtener la matriz TF-IDF (matriz original con la que se compara la similitud con la pregunta del usr)
 
-6. Búsqueda por similitud (coseno)
+7. Búsqueda por similitud (coseno)
 
     - Vectorizar la pregunta.
     - Calcular la similitud coseno con todos los chunks.
@@ -146,14 +153,14 @@ lo que permite manejar el hecho de que algunas palabras son generalmente más co
          es similar o superior a un valor mínimo
         
               
- 7. Interfaz del chatbot.
+ 8. Interfaz del chatbot.
  
     - una función en consola.
     - Un bucle while.
     - Un pequeño menú.
     - Valorar si interfaz con Streamlit
     
- 8. Documentación y Entrega:
+ 9. Documentación y Entrega:
  
     - Qué hace el chatbot.
     - Cómo ejecutarlo.
@@ -161,36 +168,41 @@ lo que permite manejar el hecho de que algunas palabras son generalmente más co
     - Estructura del proyecto.
     - Explicación breve del enfoque TF-IDF.
     
- 9. Control de versiones.
+ 10. Control de versiones.
     
  
 Módulos y funciones
 -------------------
 
-- menus.py: donde se muestra los menus para navegar por el programa.
+[*>]- menus.py: donde se muestra los menus para navegar por el programa.
    
     Funciones incorporadas:
     
-        - elegir_pdf()
         - mostrar_menu_principal()
         
-- extraer_texto.py
+[*]- elegir_pdf.py: donde se selecciona el pdf que sirve como base de conocimiento.
+
+        - seleccionar_texto()
+
+          
+[ ]- extraer_texto.py
 
     Funciones incorporadas:
         
         - cargar_pdf_original()
         - extraer_texto_original()
-        - limpiar_texto_original()
+        - preparar_texto_original()
         
-- preprocesamiento.py: donde se preprocesa el texto.
+[ ]- preprocesamiento.py: donde se preprocesa el texto, preprocesamiento lingüistico
 
     Funciones incorporadas:
     
         convertir_texto_minusculas()
+        eliminar_puntuacion()
         tokenizar()
         dividir_en_chunks()
  
-- Otros módulos previstos:
+[ ]- Otros módulos previstos:
            
     - vectorizacion.py
     - similaridad.py
@@ -265,7 +277,21 @@ Glosario de PLN (vocabulario)
 
   Medida que indica la relevancia de una palabra en un documento y en el conjunto.
   - TF = frecuencia en el chunk
-  - IDF = rareza en el corpus
+  - IDF = rareza en el corpus: 
+  
+  Aclaración: TF se multiplica por IDF
+  
+  Multiplicación TF × IDF
+    TF dice: “esta palabra aparece mucho en este documento”.
+    IDF dice: “esta palabra es rara en el corpus”.
+
+Cuando multiplicas:
+  · palabras importantes → TF alto × IDF alto
+  · palabras comunes → TF alto × IDF bajo
+  · palabras irrelevantes → TF bajo × IDF bajo
+
+  Así TF‑IDF resalta palabras clave y atenúa ruido.
+     
 
 ·N-GRAMA
 --------
