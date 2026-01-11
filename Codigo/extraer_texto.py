@@ -1,9 +1,11 @@
 """
-En extraer_texto.py se:
+==================================================================
+En extraer_texto.py se: abre el PDF y se devuleve el texto plano
 
  - Carga el PDF original
- - Extrae el texto del PDF
+ - Extrae el texto del PDF (texto plano)
  - Prepara el texto para el posterior preprocesamiento lingüistico
+==================================================================
 """
 
 from PyPDF2 import PdfReader
@@ -21,30 +23,6 @@ def extraer_texto_original(pdf_cargado):
     return texto_extraido  #de momento texto_extraido es el pdf separado en página
 
 
-def preparar_texto_original(texto):
-    """
-    Limpieza estructural del texto extraído del PDF:
-    - elimina saltos de línea innecesarios
-    - une líneas partidas por guiones
-    - corrige espacios múltiples
-    - elimina espacios al inicio y final
-    """
-
-    # 1. Unir palabras cortadas por guiones al final de línea
-    texto = texto.replace('-\n', '')
-
-    # 2. Reemplazar saltos de línea por espacios
-    texto = texto.replace('\n', ' ')
-
-    # 3. Quitar espacios dobles o triples
-    while '  ' in texto:
-        texto = texto.replace('  ', ' ')
-
-    # 4. Eliminar espacios al inicio y final
-    texto = texto.strip()
-
-    return texto
-
 
 
 
@@ -53,5 +31,4 @@ def preparar_texto_original(texto):
 if __name__ == "__main__":
    pdf = cargar_pdf_original('../Texto_pdf/historia_IA.pdf')
    texto_extraido = extraer_texto_original(pdf)
-   texto_preparado = preparar_texto_original(texto_extraido)
-   print(texto_preparado)
+   print(texto_extraido)

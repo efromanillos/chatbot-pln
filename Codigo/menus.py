@@ -1,3 +1,11 @@
+"""
+==============================================
+menus.py
+Donde se diseña el menu principal del programa
+==============================================
+"""
+
+
 from elegir_pdf import seleccionar_texto
 import os
 
@@ -9,7 +17,7 @@ def mostrar_menu_principal():
         print('=======================================')
         print('         CHATBOT PLN (v1)              ')
         print('=======================================')
-        print('1. Elegir PDF como base de conocimiento')
+        print('1. Elegir documento del Corpus')
         print('2. SALIR')
         print('=======================================')
 

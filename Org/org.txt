@@ -19,13 +19,15 @@ Días hasta la entrega: 27 días.
  - Tecnologías usadas. Librerías.
  - Organización, pasos a seguir.
  - Módulos y funciones.
+ - Configuración inicial de spaCy 
  - Posibles mejoras
  - Glosario de PLN (vocabulario)
 ================================
  
-
+============
 Descripción.
------------
+============
+
 - Se trata de implementar un chatbot con técnicas clásicas de PLN. 
 - Podemos basarnos en el código que realizó Rubén en clase o uno nuevo pero con iguales características.
 - Se va a realizar un chatbot que tiene como base de conocimiento un pdf sobre la historia de la IA. 
@@ -36,13 +38,13 @@ Descripción.
 
 Finalmente se decide implementar el chatbot mediante:
 
-    - NLTK
+    - spaCy
     - Bilingüe (inglés-español): detección de idioma del usuario y respuesta en idioma del usuario traducida
     - Un solo PDF en inglés.
 
-
+================================
 - Tecnologías usadas. Librerías.
---------------------------------
+================================
 
 Librerías principales:
 
@@ -92,21 +94,18 @@ Librerías auxiliares:
     
     
      
-       
-    
-
-
+===========================================       
 Organización, pasos fundamentales a seguir.
--------------------------------------------
+===========================================
 
 1. Organizar el directorio de trabajo y crear un repositorio en gitHub. Subir la estructura del proyecto.
 2. Elegir un pdf de dominio público o con licencia abierta, copiarlo a al directorio Texto-pdf.
    Finalmente el texto es un pdf de licencia Creative-Commons sobre la historía y evolución de la IA:
    https://eprints.ugd.edu.mk/28050/1/2.%20jrc120469_historical_evolution_of_ai-v1.1.pdf
    
-3. Seleccionar pdf como fuente del directorio texto_pdf
+3. Seleccionar pdf como fuente del directorio /Corpus/
 
-    - Dentro del directorio texto_pdf hay varios archivos con información diferente. 
+    - Dentro del directorio /Corpus/ hay varios archivos con información diferente. 
     - Se implementa la opción de seleccionar el pdf que sirve como base de conocimiento 
       sobre la cual preguntar al bot.
     
@@ -170,9 +169,9 @@ lo que permite manejar el hecho de que algunas palabras son generalmente más co
     
  10. Control de versiones.
     
- 
+=================== 
 Módulos y funciones
--------------------
+===================
 
 [*>]- menus.py: donde se muestra los menus para navegar por el programa.
    
@@ -211,9 +210,19 @@ Módulos y funciones
     - traduccion_basica.py
 
 - (...)
-    
+
+==============================
+Configuración inicial de spaCy
+==============================
+
+ - Instalación
+    - pip install spaCy
+    - python -m spacy download es_core_news_sm -> Descarga e instla el modelo de spaCy para español
+
+
+=================    
 Posibles mejoras.
------------------
+=================
 
 - Chatbot bilingüe.
 - Posibilidad de elegir el PDF dinámicamente (menú actualizado según los PDFs en el directorio).
@@ -221,6 +230,8 @@ Posibles mejoras.
 - Respuesta multi-chunk.
 - Logs de conversación.
 - Colores ANSI y diseño visual.
+- Posibilidad de hacer análisis de ENTIDADES con spaCy (nombres propios, de ciudades) 
+  para poder pedir listas de ellos al bot
 - (...)
 
 
@@ -283,7 +294,19 @@ Glosario de PLN (vocabulario)
   
   Multiplicación TF × IDF
     TF dice: “esta palabra aparece mucho en este documento”.
-    IDF dice: “esta palabra es rara en el corpus”.
+      - Si TF alto -> palabra NO importante
+      - Si TF bajo -> palabra importante
+      
+    IDF dice: “esta palabra es rara en el corpus”. -> Palabra importante
+    
+      - Si IDF alto -> palabra aparece en pocos documentos, palabra importante
+      - Si IDF bajo -> palabra aparece en muchos documentos, palabra irrelevante (de, al, con)
+      
+      TF | IDF|
+      0  |  0 |
+      0  |  1 |
+      1  |  0 |
+      1  |  1 |
 
 Cuando multiplicas:
   · palabras importantes → TF alto × IDF alto
@@ -330,7 +353,7 @@ Cuando multiplicas:
 
   Secuencia de pasos:
     1. Extraer texto
-    2. Limpiar
+    2. Limpiar/Preparar
     3. Tokenizar
     4. Lematizar
     5. Chunkear
@@ -343,6 +366,13 @@ Cuando multiplicas:
 
   Conjunto de textos usados para entrenar o analizar.
   En en caso de la actividad es el PDF.
+  
+  CORPUS != DOCUMENTO
+  
+  ·CORPUS: Son TODOS los documentos que se analizan, pueden ser varios PDFs sobre historia de la IA
+  ·DOCUMENTO: es uno de los documentos del CORPUS
+  
+  NOTA: si en el CORPUS solo hay un documento entonces CORPUS = DOCUMENTO
 
 ·BAG OF WORDS (Bolsa de palabras)
 ---------------------------------
