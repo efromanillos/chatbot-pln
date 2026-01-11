@@ -190,7 +190,21 @@ Módulos y funciones
         
         - cargar_pdf_original()
         - extraer_texto_original()
-        - preparar_texto_original()
+        
+        
+[ ] - preparar_texto.py
+
+      Limpieza estructural del texto extraído del PDF:
+    - elimina saltos de línea innecesarios
+    - une líneas partidas por guiones
+    - corrige espacios múltiples
+    - elimina espacios al inicio y final
+    
+    Funciones incorporadas:
+    
+      preparar_texto_original()
+
+
         
 [ ]- preprocesamiento.py: donde se preprocesa el texto, preprocesamiento lingüistico
 
