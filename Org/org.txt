@@ -99,14 +99,15 @@ Organización, pasos fundamentales a seguir.
 ===========================================
 
 1. Organizar el directorio de trabajo y crear un repositorio en gitHub. Subir la estructura del proyecto.
-2. Elegir un pdf de dominio público o con licencia abierta, copiarlo a al directorio Texto-pdf.
-   Finalmente el texto es un pdf de licencia Creative-Commons sobre la historía y evolución de la IA:
-   https://eprints.ugd.edu.mk/28050/1/2.%20jrc120469_historical_evolution_of_ai-v1.1.pdf
+
+2. Elegir un pdf de dominio público o con licencia abierta, copiarlo a al directorio Corpus.
+
+  
    
 3. Seleccionar pdf como fuente del directorio /Corpus/
 
     - Dentro del directorio /Corpus/ hay varios archivos con información diferente. 
-    - Se implementa la opción de seleccionar el pdf que sirve como base de conocimiento 
+    - Se implementa la opción del que el usr seleccione el pdf que sirve como base de conocimiento 
       sobre la cual preguntar al bot.
     
     
@@ -114,9 +115,14 @@ Organización, pasos fundamentales a seguir.
 
     - Cargar el PDF.
     - Extraer el texto.
-    - Prepararlo para preprocesamiento: pasar a minúsculas, quitar signos de puntuación, etc.
     
-5. Preprocesamiento
+5. Preparar el texto
+
+    -  Prepararlo para preprocesamiento: pasar a minúsculas, quitar signos de puntuación, etc.
+
+    
+6. Preprocesamiento
+
 
 Para que el modelo puedo buscar iniformación.
 
@@ -126,7 +132,7 @@ Para que el modelo puedo buscar iniformación.
     - Dividir en chunks.
     - Guardar esos chunks en una lista.
     
-6.  Vectorización con TF-IDF
+7.  Vectorización con TF-IDF
 
 TF-IDF (https://es.wikipedia.org/wiki/Tf-idf)
 
@@ -142,7 +148,7 @@ lo que permite manejar el hecho de que algunas palabras son generalmente más co
     - Ajustarlo sobre los chunks
     - Obtener la matriz TF-IDF (matriz original con la que se compara la similitud con la pregunta del usr)
 
-7. Búsqueda por similitud (coseno)
+8. Búsqueda por similitud (coseno)
 
     - Vectorizar la pregunta.
     - Calcular la similitud coseno con todos los chunks.
@@ -152,14 +158,14 @@ lo que permite manejar el hecho de que algunas palabras son generalmente más co
          es similar o superior a un valor mínimo
         
               
- 8. Interfaz del chatbot.
+ 9. Interfaz del chatbot.
  
     - una función en consola.
     - Un bucle while.
     - Un pequeño menú.
     - Valorar si interfaz con Streamlit
     
- 9. Documentación y Entrega:
+ 10. Documentación y Entrega:
  
     - Qué hace el chatbot.
     - Cómo ejecutarlo.
@@ -167,7 +173,7 @@ lo que permite manejar el hecho de que algunas palabras son generalmente más co
     - Estructura del proyecto.
     - Explicación breve del enfoque TF-IDF.
     
- 10. Control de versiones.
+ 11. Control de versiones.
     
 =================== 
 Módulos y funciones
@@ -210,18 +216,17 @@ Módulos y funciones
 
     Funciones incorporadas:
     
-        convertir_texto_minusculas()
-        eliminar_puntuacion()
-        tokenizar()
-        dividir_en_chunks()
+     - preprocesar_texto(texto)
+     - preprocesar_parrafos(lista_parrafos)
  
-[ ]- Otros módulos previstos:
+[ ]- tfidf.py
            
-    - vectorizacion.py
-    - similaridad.py
-    - chatbot.py
-    - utils.py 
-    - traduccion_basica.py
+    - crear_vectoriazador()
+    - entrenar_tfidf()
+    - vectorizar_pregunta()
+    - buscar_similitud()
+    - obtener_mejor_parrafo()
+    - obtener_top_k()
 
 - (...)
 

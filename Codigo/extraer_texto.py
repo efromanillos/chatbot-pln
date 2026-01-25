@@ -20,7 +20,7 @@ def extraer_texto_original(pdf_cargado):
         texto = pagina.extract_text()
         if texto:
             texto_extraido += texto +'\n'
-    return texto_extraido  #de momento texto_extraido es el pdf separado en página
+    return texto_extraido  #de momento texto_extraido es el pdf separado en páginas
 
 
 
@@ -29,6 +29,6 @@ def extraer_texto_original(pdf_cargado):
 #PARA HACER PRUEBAS
 
 if __name__ == "__main__":
-   pdf = cargar_pdf_original('../Texto_pdf/historia_IA.pdf')
+   pdf = cargar_pdf_original('../Corpus/Rodriguez-Cronologia-de-la-Inteligencia-Artificial.pdf')
    texto_extraido = extraer_texto_original(pdf)
    print(texto_extraido)
