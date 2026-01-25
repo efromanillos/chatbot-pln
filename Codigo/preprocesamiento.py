@@ -23,88 +23,98 @@ Donde se preprocesa el texto, preprocesamiento lingüistico
 ============================================================
 
 """
-# preprocesamiento.py
+
 
 import spacy
 
-from extraer_texto import cargar_pdf_original, extraer_texto_original
-from preparar_texto import *
+#from extraer_texto import cargar_pdf_original, extraer_texto_original
 
-doc2 = []
+#from preparar_texto import *
+#doc2 = []
 
 # Cargar modelo de spaCy en español
 nlp = spacy.load("es_core_news_sm")
 
-def preprocesar_texto(texto):
+
+#=====================================
+# Preprocesamiento del texto con Spacy
+#=====================================
+
+def preprocesar_texto(texto, nlp):
     """
-    Preprocesa un párrafo:
-    - pasa por spaCy
-    - lematiza
-    - elimina stopwords
-    - elimina puntuación
-    - convierte a minúsculas
+    Preprocesa un texto usando spaCy:
+    - tokeniza
+    - pasa a minúsculas
+    - elimina signos, espacios, stopwords, etc.
+    - devuelve una cadena con tokens separados por espacios
     """
-    #----------------------------------------------------------------------------------------------------------------------
+
+    #-----------------------------------------------------------------------------------------
     # ¿Qué hace doc = nlp(texto)?
-
-    #Suponemos que el texto es "Alan Turing publicó un artículo en 1936."
-    # Al pasar al modelo nlp(texto) genera una lista doc habiendo:
-    # Dividido el texto en una lista de tokens (separa el texto en unidades mínimas, palabras, signos, números, símbolos):
-    # ["Alan", "Turing", "publicó", "un", "artículo", "en", "1936", "."]
-
-    # Asignado categoría gramatical (NOUN, VERB, ADJ, ADV, PROPN, DET):
-    #Alan → PROPN
-    #Turing → PROPN
-    #publicó → VERB
-    #artículo → NOUN
-    #1936 → NUM
-    #. → PUNCT
-
-    # Calculado el lema: (publicó -> publicar, números -> número, computables -> computable)
-
-    # Marcado stopwords, puntuación, números, etc. -> Marca cada token con True si es stopword, puntuación, número, etc.
-
-    #"el" → is_stop = True
-    #"." → is_punct = True
-    #"1936" → like_num = True
-    #"Alan" → is_title = True
-
-    #------------------------------------------------------------------------------------------------------------------------
+    #
+    # Suponemos que el texto es: "Alan Turing publicó un artículo en 1936."
+    #
+    # spaCy realiza:
+    # - Tokenización → ["Alan", "Turing", "publicó", "un", "artículo", "en", "1936", "."]
+    # - Etiquetado gramatical → PROPN, VERB, NOUN, etc.
+    # - Lematización → publicó → publicar
+    # - Marcado de stopwords, puntuación, números, etc.
+    #-----------------------------------------------------------------------------------------
 
     doc = nlp(texto)
 
     tokens_limpios = []
 
     for token in doc:
+
+        # Filtrado de stopwords
+
         if token.is_stop:
-            continue #filtrado de stopwords
+            continue 
+
+        # Filtrado de signos de puntuación
+
         if token.is_punct:
-            continue #filtrado de signos de puntuación
+            continue 
+
+        # Filtrado de números
+
         if token.like_num:
-            continue #filtrado de números
+            continue 
 
-        lema = token.lemma_.lower().strip() #lematización de los tokens + pasados a minúsculas + eliminación de espacios al principio y final (strip)
+        #Lematización de los tokens + minúsculas + eliminación de espacios al principio y final (strip)
+
+        lema = token.lemma_.lower().strip() 
+
+        # Evitar añadir tokens vacíos
+
         if lema:
-            tokens_limpios.append(lema) #solo se añade si existe lema se evita añadir vacios
+            tokens_limpios.append(lema) 
 
-    return ' '.join(tokens_limpios) #reconstrucción del texto preprocesado con Spacy retornado en una lista
+    #Reconstrucción del texto preprocesado con Spacy retornado en un string
+
+    return ' '.join(tokens_limpios) 
 
 
-def preprocesar_parrafos(lista_parrafos):
-    return [preprocesar_texto(p) for p in lista_parrafos]
+#===============================================
+# Preprocesamiento del texto a lista de parrafos
+#===============================================
+def preprocesar_parrafos(lista_parrafos, nlp):
+    return [preprocesar_texto(p, nlp) for p in lista_parrafos]
 
 
 
 # PRUEBAS
 if __name__ == "__main__":
 
-    
+    """
     pdf = cargar_pdf_original('../Corpus/Rodriguez-Cronologia-de-la-Inteligencia-Artificial.pdf')
     texto_extraido = extraer_texto_original(pdf)
     texto_parrafos = dividir_en_parrafos(texto_extraido)
     parrafos_preparados = preparar_parrafos(texto_parrafos)
     print(preprocesar_parrafos(parrafos_preparados))
 
+    """
 
 
 
