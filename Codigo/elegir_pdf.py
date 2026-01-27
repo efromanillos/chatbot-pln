@@ -1,6 +1,6 @@
 """
 =================================================================
-elegir_pdf.py: donde se selecciona el pdf del directorio /Corpus/ 
+elegir_pdf.py: donde se selecciona el pdf del ruta_corpus /Corpus/ 
 que sirve como base de conocimiento.
 =================================================================
 """
@@ -9,26 +9,26 @@ que sirve como base de conocimiento.
 
 import os
 
-def seleccionar_texto(directorio='../Corpus/'):
+def seleccionar_texto(ruta_corpus='../Corpus/'):
     """
-    Lista los archivos PDF dentro del directorio indicado y permite al usuario
+    Lista los archivos PDF dentro del ruta_corpus indicado y permite al usuario
     seleccionar uno. Devuelve la ruta completa del PDF elegido.
     """
 
-    # 1. Comprobar que el directorio existe
-    if not os.path.isdir(directorio):
-        print(f'El directorio "{directorio}" no existe.') #{directorio} entre comillas porque muestra el texto no valor de una variable
+    # 1. Comprobar que el ruta_corpus existe
+    if not os.path.isdir(ruta_corpus):
+        print(f'El directorio "{ruta_corpus}" no existe.') #{ruta_corpus} entre comillas porque muestra el texto no valor de una variable
         return None
 
-    # 2. Obtener todos los archivos del directorio
-    elementos = os.listdir(directorio) #elementos es una lista con los pdf que hay en el directorio
+    # 2. Obtener todos los archivos del ruta_corpus
+    elementos = os.listdir(ruta_corpus) #elementos es una lista con los pdf que hay en el ruta_corpus
     
 
     # 3. Filtrar solo los PDFs
     archivos = []
     for f in elementos:
         nombre_minusculas = f.lower() #se pasa a minúsculas toda la lista de elementos para 
-        if nombre_minusculas.endswith(".pdf"):
+        if nombre_minusculas.endswith('.pdf'):
             archivos.append(f)
             
 
@@ -56,9 +56,9 @@ def seleccionar_texto(directorio='../Corpus/'):
         # Validar que opcion esta entre 1 y total de elementos de la lista archivos
         if 1 <= opcion <= len(archivos):
             pdf_elegido = archivos[opcion - 1] #el usr elije comenzando por 1 pero el índice de las lista comienza en 0, si usr elije 2, accede al archivo cuyo índice es 1
-            ruta_completa = os.path.join(directorio, pdf_elegido)
+            ruta_completa_pdf = os.path.join(ruta_corpus, pdf_elegido)
             print(f'\nHas seleccionado: {pdf_elegido}\n')
-            return ruta_completa
+            return ruta_completa_pdf
         else:
             print("Número fuera de rango. Inténtelo de nuevo.")
 
