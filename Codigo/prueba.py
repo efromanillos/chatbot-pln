@@ -28,3 +28,11 @@ def n_cuadrados_pares(lista):
 print(n_cuadrados_pares(lista2))
 
 print('------------')
+
+
+#ejemplo de ' '.join
+#une las palabras en la lista por el SEPARADOR (string) entre comillas
+
+palabras = ['hola', 'mundo']
+print('****'.join(palabras))
+print('****'.join(palabras) + ' aleluya')

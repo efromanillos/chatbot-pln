@@ -51,7 +51,8 @@ def seleccionar_texto(ruta_corpus='../Corpus/'):
             print('Entrada no válida. Introduzca un número.')
             continue
 
-        opcion = int(opcion) #Casting porque opcion es string y queremos entero para poder validar
+        #Casting porque opcion es string y queremos entero para poder validar
+        opcion = int(opcion) 
 
         # Validar que opcion esta entre 1 y total de elementos de la lista archivos
         if 1 <= opcion <= len(archivos):

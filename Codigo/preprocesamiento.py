@@ -24,12 +24,11 @@ Donde se preprocesa el texto, preprocesamiento lingüistico
 
 """
 
-
 import spacy
 
 #from extraer_texto import cargar_pdf_original, extraer_texto_original
 
-#from preparar_texto import *
+from preparar_texto import *
 #doc2 = []
 
 # Cargar modelo de spaCy en español
@@ -41,65 +40,41 @@ nlp = spacy.load("es_core_news_sm")
 #=====================================
 
 def preprocesar_texto(texto, nlp):
-    """
-    Preprocesa un texto usando spaCy:
-    - tokeniza
-    - pasa a minúsculas
-    - elimina signos, espacios, stopwords, etc.
-    - devuelve una cadena con tokens separados por espacios
-    """
-
-    #-----------------------------------------------------------------------------------------
-    # ¿Qué hace doc = nlp(texto)?
-    #
-    # Suponemos que el texto es: "Alan Turing publicó un artículo en 1936."
-    #
-    # spaCy realiza:
-    # - Tokenización → ["Alan", "Turing", "publicó", "un", "artículo", "en", "1936", "."]
-    # - Etiquetado gramatical → PROPN, VERB, NOUN, etc.
-    # - Lematización → publicó → publicar
-    # - Marcado de stopwords, puntuación, números, etc.
-    #-----------------------------------------------------------------------------------------
-
     doc = nlp(texto)
-
     tokens_limpios = []
 
     for token in doc:
+        if token.is_space or token.is_punct:
+            continue
 
-        # Filtrado de stopwords
-
-        if token.is_stop:
-            continue 
-
-        # Filtrado de signos de puntuación
-
-        if token.is_punct:
-            continue 
-
-        # Filtrado de números
-
+        # Conservar números (años)
         if token.like_num:
-            continue 
+            tokens_limpios.append(token.text)
+            continue
 
-        #Lematización de los tokens + minúsculas + eliminación de espacios al principio y final (strip)
+        # Conservar nombres propios
+        if token.pos_ == "PROPN":
+            tokens_limpios.append(token.lemma_.lower())
+            continue
 
-        lema = token.lemma_.lower().strip() 
+        # Conservar sustantivos, verbos y adjetivos aunque sean stopwords
+        if token.pos_ in ("NOUN", "VERB", "ADJ"):
+            tokens_limpios.append(token.lemma_.lower())
+            continue
 
-        # Evitar añadir tokens vacíos
+        # Conservar adverbios importantes
+        if token.pos_ == "ADV":
+            tokens_limpios.append(token.lemma_.lower())
+            continue
 
-        if lema:
-            tokens_limpios.append(lema) 
-
-    #Reconstrucción del texto preprocesado con Spacy retornado en un string
-
-    return ' '.join(tokens_limpios) 
+    return " ".join(tokens_limpios)
 
 
-#===============================================
-# Preprocesamiento del texto a lista de parrafos
-#===============================================
+#============================================================
+# Preprocesamiento del texto a lista de strings (de parrafos)
+#============================================================
 def preprocesar_parrafos(lista_parrafos, nlp):
+
     return [preprocesar_texto(p, nlp) for p in lista_parrafos]
 
 
@@ -107,14 +82,14 @@ def preprocesar_parrafos(lista_parrafos, nlp):
 # PRUEBAS
 if __name__ == "__main__":
 
-    """
-    pdf = cargar_pdf_original('../Corpus/Rodriguez-Cronologia-de-la-Inteligencia-Artificial.pdf')
+    
+    pdf = cargar_pdf_original('../Corpus/InteligenciaArtificialNuriaOliver.pdf')
     texto_extraido = extraer_texto_original(pdf)
     texto_parrafos = dividir_en_parrafos(texto_extraido)
-    parrafos_preparados = preparar_parrafos(texto_parrafos)
-    print(preprocesar_parrafos(parrafos_preparados))
-
-    """
+    parrafos_preparados = limpiar_parrafos(texto_parrafos)
+    print(preprocesar_parrafos(parrafos_preparados, nlp))
+    
+    
 
 
 
