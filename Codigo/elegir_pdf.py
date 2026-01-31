@@ -9,7 +9,7 @@ que sirve como base de conocimiento.
 
 import os
 
-def seleccionar_texto(ruta_corpus='../Corpus/'):
+def seleccionar_texto(ruta_corpus='../Textos/'):
     """
     Lista los archivos PDF dentro del ruta_corpus indicado y permite al usuario
     seleccionar uno. Devuelve la ruta completa del PDF elegido.

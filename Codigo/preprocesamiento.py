@@ -37,6 +37,10 @@ nlp = spacy.load("es_core_news_sm")
 
 #=====================================
 # Preprocesamiento del texto con Spacy
+# limpieza lingüistica
+# NOTA: pos_ significa Part-Of-Speech 
+# te dice la categoría gramatical 
+# en forma de texto legible
 #=====================================
 
 def preprocesar_texto(texto, nlp):

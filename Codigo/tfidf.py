@@ -28,11 +28,12 @@ from extraer_texto import cargar_pdf_original, extraer_texto_original
 from preparar_texto import *
 from preprocesamiento import *
 
-
+#Constante para fallback: si similitud menor que umbral entonces respuesta de fallback
+UMBRAL_SIMILITUD = 0.15
 
 #=============================================================================================================
 #Crear un vectorizador vacío para poder entrenarlo después: ahora es como un "diccionario vacío sin palabras"
-#Cuando se entrena con el texto del Corpus contendrá las palabras y puede convertirlas en vectores.
+#Cuando se entrena con el texto contendrá el vocabulario y puede convertirlas en vectores.
 #=============================================================================================================
 def crear_vectorizador():
     return TfidfVectorizer(
@@ -63,7 +64,7 @@ def vectorizar_pregunta(pregunta_preprocesada, vectorizador):
 
 
 #=============================================================================================================
-# Buscar la similitud entre la pregunta vectorizada y todos los párrafos del corpus.
+# Buscar la similitud entre la pregunta vectorizada y todos los párrafos del texto (pdf elegido por usr).
 # Devuelve el índice del párrafo más similar.
 #=============================================================================================================
 def buscar_similitud(vector_pregunta, matriz_tfidf):
@@ -82,6 +83,16 @@ def obtener_respuesta(pregunta_original, nlp, vectorizador, matriz_tfidf, parraf
     pregunta_preprocesada = preprocesar_texto(pregunta_original, nlp)
     vector_pregunta = vectorizar_pregunta(pregunta_preprocesada, vectorizador)
     indice_max, similitudes = buscar_similitud(vector_pregunta, matriz_tfidf)
+    similitud_max = similitudes[indice_max]
+
+    #Fallback si la similitud es demasiado baja.
+
+    if similitud_max < UMBRAL_SIMILITUD:
+        return (
+            'Lo siento, no he encontrado información relevante en el documento.'
+            '¿Puedes reformular la pregunta?'
+
+        )
     return parrafos_originales[indice_max]
 
 
@@ -89,15 +100,15 @@ def obtener_respuesta(pregunta_original, nlp, vectorizador, matriz_tfidf, parraf
 # PRUEBAS
 if __name__ == "__main__":
 
-    pregunta = '¿Unimate?'
+    pregunta = '¿Quién es Konrad Zuse?'
 
-    pdf = cargar_pdf_original('../Corpus/Rodriguez-Cronologia-de-la-Inteligencia-Artificial.pdf')
+    pdf = cargar_pdf_original('../Textos/Rodriguez-Cronologia-de-la-Inteligencia-Artificial.pdf')
     texto_extraido = extraer_texto_original(pdf)
 
     # 1) Dividir en párrafos
     texto_parrafos = dividir_en_parrafos(texto_extraido)
 
-    # 2) Filtrar párrafos basura  ← 🔥 AQUÍ
+    # 2) Filtrar párrafos basura  
     texto_parrafos = filtrar_parrafos(texto_parrafos)
 
 

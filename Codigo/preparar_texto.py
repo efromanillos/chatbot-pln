@@ -42,6 +42,11 @@ def dividir_en_parrafos(texto):
 """
 import re
 
+#==============================
+#Función de segmentación:
+#limpieza estructural del texto
+#===============================
+
 def dividir_en_parrafos(texto):
     lineas = texto.split("\n")
     parrafos = []
@@ -53,7 +58,7 @@ def dividir_en_parrafos(texto):
         # Saltar líneas vacías
         if not l:
             if actual:
-                parrafos.append(" ".join(actual).strip())
+                parrafos.append(' '.join(actual).strip())
                 actual = []
             continue
 
@@ -61,14 +66,14 @@ def dividir_en_parrafos(texto):
         if len(l) < 25 and not re.match(r"^\d{4}", l):
             # Si ya hay contenido acumulado, cerramos párrafo
             if actual:
-                parrafos.append(" ".join(actual).strip())
+                parrafos.append(' '.join(actual).strip())
                 actual = []
             continue
 
         # Si la línea empieza con año → posible nuevo párrafo
         if re.match(r"^\d{4}", l):
             if actual:
-                parrafos.append(" ".join(actual).strip())
+                parrafos.append(' '.join(actual).strip())
                 actual = []
             actual.append(l)
             continue
@@ -78,7 +83,7 @@ def dividir_en_parrafos(texto):
 
     # Añadir el último párrafo
     if actual:
-        parrafos.append(" ".join(actual).strip())
+        parrafos.append(' '.join(actual).strip())
 
     return parrafos
 

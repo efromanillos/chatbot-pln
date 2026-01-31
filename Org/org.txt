@@ -212,14 +212,14 @@ Módulos y funciones
 
 
         
-[ ]- preprocesamiento.py: donde se preprocesa el texto, preprocesamiento lingüistico
+[  ]- preprocesamiento.py: donde se preprocesa el texto, preprocesamiento lingüistico
 
     Funciones incorporadas:
     
      - preprocesar_texto(texto)
      - preprocesar_parrafos(lista_parrafos)
  
-[ ]- tfidf.py
+[ ] - tfidf.py
            
     - crear_vectoriazador()
     - entrenar_tfidf()
@@ -227,6 +227,24 @@ Módulos y funciones
     - buscar_similitud()
     - obtener_mejor_parrafo()
     - obtener_top_k()
+    
+[ ] -  chatbot.py
+
+      - iniciar_chatbot(ruta_pdf) sigue los siguiente pasos:
+          · Cargar pdf
+          · Preparar texto
+          · Entrenar TF-IDF con los parrafos_preprocesados
+          · Bucle conversacional con memoria contextual (últimas 3 preguntas)
+          
+[ ] - traducir.py
+
+[ ] - efectos.py
+
+      - escribir_lento(respuesta) -> efecto 'máquina de escribir'
+      
+
+    
+
 
 - (...)
 
