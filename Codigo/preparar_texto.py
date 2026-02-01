@@ -120,20 +120,6 @@ def limpiar_parrafos(parrafos_sucios):
     return parrafos_limpios
 
 
-#PARA HACER PRUEBAS
-
-if __name__ == '__main__':
-   
-   pdf = cargar_pdf_original('../Corpus/Rodriguez-Cronologia-de-la-Inteligencia-Artificial.pdf')
-   texto_extraido = extraer_texto_original(pdf)
-   parrafos = dividir_en_parrafos(texto_extraido)
-
-   
-
-   parrafos_limpios = limpiar_parrafos(parrafos)
-   print(parrafos_limpios)
-   
-
 
 
 

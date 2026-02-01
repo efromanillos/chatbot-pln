@@ -85,7 +85,7 @@ def obtener_respuesta(pregunta_original, nlp, vectorizador, matriz_tfidf, parraf
     indice_max, similitudes = buscar_similitud(vector_pregunta, matriz_tfidf)
     similitud_max = similitudes[indice_max]
 
-    #Fallback si la similitud es demasiado baja.
+    #Fallback si la similitud es demasiado baja (< 0.15).
 
     if similitud_max < UMBRAL_SIMILITUD:
         return (
@@ -97,38 +97,3 @@ def obtener_respuesta(pregunta_original, nlp, vectorizador, matriz_tfidf, parraf
 
 
 
-# PRUEBAS
-if __name__ == "__main__":
-
-    pregunta = '¿Quién es Konrad Zuse?'
-
-    pdf = cargar_pdf_original('../Textos/Rodriguez-Cronologia-de-la-Inteligencia-Artificial.pdf')
-    texto_extraido = extraer_texto_original(pdf)
-
-    # 1) Dividir en párrafos
-    texto_parrafos = dividir_en_parrafos(texto_extraido)
-
-    # 2) Filtrar párrafos basura  
-    texto_parrafos = filtrar_parrafos(texto_parrafos)
-
-
-    # 3) Limpiar párrafos (quitar guiones, saltos, espacios)
-    parrafos_preparados = limpiar_parrafos(texto_parrafos)
-
-    # 4) Preprocesar para TF‑IDF
-    parrafos_preprocesados = preprocesar_parrafos(parrafos_preparados, nlp)
-
-    # 5) Entrenar TF‑IDF
-    vectorizador, matriz_tfidf = entrenar_tfidf(parrafos_preprocesados)
-
-    # 6) Obtener respuesta
-    respuesta = obtener_respuesta(
-        pregunta_original=pregunta,
-        nlp=nlp,
-        vectorizador=vectorizador,
-        matriz_tfidf=matriz_tfidf,
-        parrafos_originales=parrafos_preparados
-    )
-
-    print(respuesta)
-#print(preprocesar_texto("1842, la matemática y escritora británica Ada Lovelace programa el primer algoritmo destinado a ser procesado por una máquina.", nlp))

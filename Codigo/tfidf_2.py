@@ -226,28 +226,3 @@ def obtener_respuesta(pregunta_original, nlp, vectorizador, matriz_tfidf, parraf
 
 
 
-# PRUEBAS
-if __name__ == "__main__":
-
-    pregunta = '¿quién es alan turing?'
-
-    pdf = cargar_pdf_original('../Corpus/Cronología Resumida de la Inteligencia Artificial.pdf')
-    texto_extraido = extraer_texto_original(pdf)
-    texto_parrafos = dividir_en_parrafos(texto_extraido)
-    parrafos_preparados = limpiar_parrafos(texto_parrafos)
-    parrafos_preprocesados = preprocesar_parrafos(parrafos_preparados, nlp)
-
-    vectorizador, matriz_tfidf = entrenar_tfidf(parrafos_preprocesados)
-
-    # 🔥 Paso que faltaba
-    respuesta = obtener_respuesta(
-    pregunta_original=pregunta,
-    nlp=nlp,
-    vectorizador=vectorizador,
-    matriz_tfidf=matriz_tfidf,
-    parrafos_originales=parrafos_preparados
-    )
-
-    print(respuesta)
-
-#print(preprocesar_texto("1842, la matemática y escritora británica Ada Lovelace programa el primer algoritmo destinado a ser procesado por una máquina.", nlp))

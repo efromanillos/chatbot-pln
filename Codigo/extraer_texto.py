@@ -26,9 +26,3 @@ def extraer_texto_original(pdf_cargado):
 
 
 
-#PARA HACER PRUEBAS
-
-if __name__ == "__main__":
-   pdf = cargar_pdf_original('../Corpus/Rodriguez-Cronologia-de-la-Inteligencia-Artificial.pdf')
-   texto_extraido = extraer_texto_original(pdf)
-   print(texto_extraido)

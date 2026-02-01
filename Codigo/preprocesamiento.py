@@ -83,28 +83,6 @@ def preprocesar_parrafos(lista_parrafos, nlp):
 
 
 
-# PRUEBAS
-if __name__ == "__main__":
-
-    
-    pdf = cargar_pdf_original('../Corpus/InteligenciaArtificialNuriaOliver.pdf')
-    texto_extraido = extraer_texto_original(pdf)
-    texto_parrafos = dividir_en_parrafos(texto_extraido)
-    parrafos_preparados = limpiar_parrafos(texto_parrafos)
-    print(preprocesar_parrafos(parrafos_preparados, nlp))
-    
-    
-
-
-
-    """
-    Para imprimir lo que nlp() hace al texto:
-     
-    doc2 = nlp(str(parrafos_preparados))
-    for token in doc2:
-        print(token.text, token.lemma_, token.pos_) 
-    """
-
 
     
     

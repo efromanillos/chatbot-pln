@@ -8,8 +8,11 @@ Donde se diseña el menu principal del programa
 
 from elegir_pdf import seleccionar_texto
 from chatbot import iniciar_chatbot
+from efectos import banner
 import os
 
+BLANCO = "\033[97m"
+RESET = "\033[0m"
 
 def mostrar_menu_principal():
 
@@ -17,14 +20,13 @@ def mostrar_menu_principal():
 
     while True:
         os.system('cls')
-    
-        print('=======================================')
-        print('         CHATBOT PLN (v1)              ')
-        print('=======================================')
+
+        banner()
         print('1. Elegir documento del Corpus')
         print('2. Iniciar chatbot')
         print('3. SALIR')
-        print('=======================================')
+       
+        print(BLANCO + "─" * 48 + RESET)
 
         opc = input('Seleccione una opción: ')
 
@@ -46,5 +48,3 @@ def mostrar_menu_principal():
                 print('Opción NO válida.')
                 input('\nPresione [ENTER] para continuar')
 
-if __name__ == "__main__":
-    mostrar_menu_principal()
